@@ -44,4 +44,15 @@ tasks.named('test') {
 }
 
 
-
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['test']
+        }
+    }
+}

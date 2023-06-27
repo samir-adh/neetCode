@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SolutionTest {
+class BinarySearchTest {
     @Test
     void searchTest() {
         Solution solution = new Solution();
