@@ -19,7 +19,7 @@ Here's where I am so far :
 #### Medium
 
 - [X] Group Anagrams
-- [ ] Top K Frequent Elements
+- [X] Top K Frequent Elements
 - [ ] Encode and Decode Strings
 - [ ] Product of Array Exept Self
 - [X] Valid Sudoku
