@@ -21,7 +21,7 @@ Here's where I am so far :
 - [X] Group Anagrams
 - [X] Top K Frequent Elements
 - [ ] Encode and Decode Strings
-- [ ] Product of Array Exept Self
+- [X] Product of Array Exept Self
 - [X] Valid Sudoku
 - [X] Longest Consecutive Sequence
 
