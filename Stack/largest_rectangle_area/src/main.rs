@@ -1,44 +1,59 @@
 struct Item {
-    value: i32,
-    left: i32,
-    right: i32,
+    height: i32,
+    index: usize,
+}
+
+struct Stack<T> {
+    items : Vec<T>
+}
+
+impl<T> Stack<T> {
+    fn push(&mut self, item: T) {
+        self.items.push(item);
+    }
+
+    fn peek(&self) -> &T {
+        return self.items.last().expect("Called 'peek' on empty stack.");
+    }
+
+    fn pop(&mut self) -> T {
+        return self.items.pop().expect("Called 'pop' on empty stack.");
+    }
+
+    fn new() -> Stack<T> {
+        return Stack { items: vec![] };
+    }
+
+    fn is_empty(&self) -> bool {
+        return self.items.is_empty();
+    }
 }
 
 impl Solution {
     pub fn largest_rectangle_area(heights: Vec<i32>) -> i32 {
-        let n = heights.len();
-        if n == 0 {
-            return 0;
-        }
-        if n == 1 {
-            return heights[0];
-        }
-        let mut areas: Vec<i32> = heights.iter().map(|_x| 0).collect();
-        for i in 0..n {
-            let i_val = heights[i];
-            let mut left = -1;
-            for j in 1..(i + 1) {
-                let j_val = heights[i - j];
-                if j_val < i_val {
-                    left = (i - j) as i32;
-                    break;
-                }
-            }
-            let mut right = n as i32;
-            for k in 1..(n - i) {
-                let k_val = heights[i + k];
-                if k_val < i_val {
-                    right = (i + k) as i32;
-                    break;
-                }
-            }
-            areas[i] = (right - left - 1) * i_val
-        }
-        let mut max_area = areas[0];
+        let mut padded_heights = heights.clone();
+        padded_heights.push(0);
+        let n = padded_heights.len();
+        let mut max_area = 0;
+        let mut stack = Stack::new();
+        stack.push(Item{
+            height: padded_heights[0],
+            index : 0
+        });
         for i in 1..n {
-            if max_area < areas[i] {
-                max_area = areas[i];
+            let mut item = Item {
+                height: padded_heights[i],
+                index : i,
+            };
+            while !stack.is_empty() && padded_heights[i] < stack.peek().height {
+                let removed_item = stack.pop();
+                let j = removed_item.index;
+                let k = removed_item.height;
+                let area = (i-j) as i32 * k;
+                max_area = max_area.max(area);
+                item.index = j;
             }
+            stack.push(item);
         }
         return max_area;
     }
@@ -68,5 +83,11 @@ mod test {
     fn test_case_2() {
         let heights: Vec<i32> = vec![2,4];
         assert_eq!(Solution::largest_rectangle_area(heights), 4);
+    }
+
+    #[test]
+    fn test_case_3() {
+        let heights: Vec<i32> = vec![2,1,2];
+        assert_eq!(Solution::largest_rectangle_area(heights), 3);
     }
 }
